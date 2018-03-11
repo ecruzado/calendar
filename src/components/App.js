@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Selector from './Selector';
 import Calendar from './Calendar';
 import moment from 'moment';
-import getHolidays  from '../helpers/getHolidays';
+import { getSupportedCountries, getHolidays }  from '../helpers/holidays';
 
 
 let counter = 0;
@@ -18,8 +18,13 @@ class App extends Component {
             startDate: undefined,
             endDate: undefined,
             holidays: undefined,
+            supportedCountries: undefined,
         };
     }
+
+    componentDidMount() {
+        getSupportedCountries().then(data => this.setState({supportedCountries: data}));
+    };
 
     onGenerateClickHandler = e => {
         const { startDate: startDateRaw, numberOfDays, countryCode } = e;
@@ -54,11 +59,11 @@ class App extends Component {
     };
 
     render() {
-        const { holidays } = this.state;
+        const { holidays, supportedCountries } = this.state;
         return (
             <div>
-                <Selector onGenerateClick={this.onGenerateClickHandler} />
-                { holidays && this.displayCalendars() }
+                {supportedCountries && <Selector onGenerateClick={this.onGenerateClickHandler} supportedCountries={supportedCountries}/> }
+                {holidays && this.displayCalendars() }
             </div>
         );
     }

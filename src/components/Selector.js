@@ -16,6 +16,7 @@ class Selector extends Component {
     }
     
     render() {
+        const { onGenerateClick, supportedCountries = [] } = this.props;
         return (
             <div>
                 <h1>Generate calendar </h1>
@@ -29,7 +30,10 @@ class Selector extends Component {
                 </p>
                 <p>
                     <span>Country Code: </span>
-                    <input type="text" value={this.state.countryCode} onChange={({ target }) => this.setState({ countryCode: target.value })} />
+                    {/* <input type="text" value={this.state.countryCode} onChange={({ target }) => this.setState({ countryCode: target.value })} /> */}
+                    <select value={this.state.countryCode} onChange={({ target }) => this.setState({ countryCode: target.value })}>
+                        {supportedCountries.map(country => <option key={`option_${country.countryCode}`} value={country.countryCode}>{country.fullName}</option>)}
+                    </select>
                 </p>
                 <p>
                     <input type="button" value="Generate" onClick={this.onGenerateClickHandler} />
