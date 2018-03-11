@@ -1,4 +1,10 @@
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const miniCssExtractPlugin = new MiniCssExtractPlugin({
+  filename: "[name].css",
+  chunkFilename: "[id].css"
+});
 
 module.exports = {
     entry: [
@@ -11,11 +17,16 @@ module.exports = {
           test: /\.(js|jsx)$/,
           exclude: /node_modules/,
           use: ['babel-loader']
-        }
+        },
+        {
+          test: /\.(css|sass|scss)$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        }        
       ]
     },
     plugins: [
-      new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
+      miniCssExtractPlugin, 
     ],
     resolve: {
       extensions: ['*', '.js', '.jsx']

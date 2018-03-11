@@ -1,0 +1,43 @@
+body {
+    background-color: white;
+}
+
+.calendar {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+
+    .header {
+        text-align: center;
+        background-color: lightgreen;
+        margin-right: 5px;
+    }
+
+    .days{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        
+        span {
+            margin: 1px;
+            height: 15px;
+            font-size: 10px;
+            width: 13%;
+            text-align: center;
+            background-color: grey;
+            &.header {
+                background-color:lightgray;
+            }
+            &.weekend {
+                background-color: yellow;
+            }
+            &.weekday {
+                background-color: green;
+            }
+            &.invalid {
+                background-color: grey;
+            }
+        }
+    }
+
+}

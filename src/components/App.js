@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Selector from './Selector';
+import Calendar from './Calendar';
+import moment from 'moment';
 
 class App extends Component {
     constructor(){
@@ -12,7 +14,8 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Selector onGenerateClick={this.onGenerateClickHandler} />                
+                <Selector onGenerateClick={this.onGenerateClickHandler} />      
+                <Calendar startDate={moment()} endDate={moment().add(10, 'd')}/>
             </div>
         );
     }
