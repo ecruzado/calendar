@@ -28,6 +28,7 @@ class App extends Component {
 
     onGenerateClickHandler = e => {
         const { startDate: startDateRaw, numberOfDays, countryCode } = e;
+        this.setState({ holidays: undefined});
         const startDate = moment(startDateRaw);
         const endDate = startDate.clone().add(numberOfDays, 'd');
         getHolidays(startDate.year(), countryCode).then(data => this.setState({ holidays: data }));
@@ -61,9 +62,9 @@ class App extends Component {
     render() {
         const { holidays, supportedCountries } = this.state;
         return (
-            <div>
+            <div className="calendar-page">
                 {supportedCountries && <Selector onGenerateClick={this.onGenerateClickHandler} supportedCountries={supportedCountries}/> }
-                {holidays && this.displayCalendars() }
+                {holidays && (<div className="calendar-container">{this.displayCalendars()}</div>)}
             </div>
         );
     }

@@ -10,13 +10,8 @@ const generateKey = () => {
 class Calendar extends Component {
     constructor(){
         super();
-        this.state = {
-        };
     }
 
-    onClickHandler = () => {
-    }
-    
     getEmptySpots = startDate => {
         return  Array.apply(null, Array(startDate.day())).map( (e, i) => <span key={generateKey()}></span>);
     };
