@@ -30,7 +30,7 @@ class App extends Component {
         const { startDate: startDateRaw, numberOfDays, countryCode } = e;
         this.setState({ holidays: undefined});
         const startDate = moment(startDateRaw);
-        const endDate = startDate.clone().add(numberOfDays, 'd');
+        const endDate = startDate.clone().add(numberOfDays - 1, 'd');
         getHolidays(startDate.year(), countryCode).then(data => this.setState({ holidays: data }));
         this.setState({ startDate, endDate });
     };
@@ -38,7 +38,7 @@ class App extends Component {
     getDateRanges = ({ startDate, endDate }) => {
         const ranges = [];
         let date = startDate.clone();
-        while (date.isBefore(endDate)) {
+        while (date.isSameOrBefore(endDate, 'day')) {
             const endOfMonth = date.clone().endOf('month');
             if (endOfMonth.isBefore(endDate)) {
                 ranges.push({ startDate: date.clone(), endDate: endOfMonth });
