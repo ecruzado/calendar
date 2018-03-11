@@ -22,7 +22,8 @@ class Calendar extends Component {
     };
 
     getDays = () => {
-        const { startDate, endDate } = this.props;
+        const { startDate, endDate, holidays } = this.props;
+        const holidaysFormatted = holidays.map(({ date }) => moment(new Date(date.year, +date.month - 1, date.day)));
         const startOfMonth = startDate.clone().startOf('month');
         const endOfMonth = startDate.clone().endOf('month'); 
         
@@ -34,7 +35,10 @@ class Calendar extends Component {
             let text = date.date();
             if (date.isBefore(startDate, 'day') || date.isAfter(endDate, 'day')) {
                 text = '';
-            } else if ([0, 6].indexOf(date.day()) > -1) {
+            } else if (holidaysFormatted.some(holiday => holiday.isSame(date, 'day'))) {
+                type = 'holiday';
+            }
+            else if ([0, 6].indexOf(date.day()) > -1) {
                 type = 'weekend';
             } else {
                 type = 'weekday';
@@ -47,7 +51,6 @@ class Calendar extends Component {
 
     render() {
         const { startDate } = this.props;
-        this.getDays();
         return (
             <div className="calendar">
                 <div className="days">

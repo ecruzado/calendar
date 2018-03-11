@@ -38,6 +38,9 @@ body {
             &.invalid {
                 background-color: grey;
             }
+            &.holiday {
+                background-color: red;
+            }
         }
     }
 

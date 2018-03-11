@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Selector from './Selector';
 import Calendar from './Calendar';
 import moment from 'moment';
+import getHolidays  from '../helpers/getHolidays';
+
 
 let counter = 0;
 const generateKey = () => {
@@ -14,7 +16,8 @@ class App extends Component {
         super();
         this.state = {
             startDate: undefined,
-            endDate: undefined
+            endDate: undefined,
+            holidays: undefined,
         };
     }
 
@@ -22,6 +25,7 @@ class App extends Component {
         const { startDate: startDateRaw, numberOfDays, countryCode } = e;
         const startDate = moment(startDateRaw);
         const endDate = startDate.clone().add(numberOfDays, 'd');
+        getHolidays(startDate.year(), countryCode).then(data => this.setState({ holidays: data }));
         this.setState({ startDate, endDate });
     };
     
@@ -41,19 +45,20 @@ class App extends Component {
     };
 
     displayCalendars = () => {
-        const { startDate, endDate } = this.state;
+        const { startDate, endDate, holidays } = this.state;
         if (!startDate) return undefined;
         const dateRanges = this.getDateRanges({ startDate, endDate});
         return dateRanges.map(range => 
-            <Calendar key={generateKey()} startDate={range.startDate} endDate={range.endDate}/>
+            <Calendar key={generateKey()} startDate={range.startDate} endDate={range.endDate} holidays={holidays}/>
         );
     };
 
     render() {
+        const { holidays } = this.state;
         return (
             <div>
                 <Selector onGenerateClick={this.onGenerateClickHandler} />
-                { this.displayCalendars() }
+                { holidays && this.displayCalendars() }
             </div>
         );
     }
